@@ -1,21 +1,22 @@
 module SessionsHelper
   def log_in(user)
-    session[:user_id] = user.id
+    cookies.encrypted[:user_id] = { 
+        value: user.id,
+        expires: cookie_expiration_time
+      }
   end
 
   def current_user
-    if session[:user_id]
-      @current_user ||= User.find_by(id: session[:user_id])
-    end
+    @current_user ||= User.find_by(id: cookies.encrypted[:user_id])
   end
 
   def logged_in?
-    !current_user.nil?
+    current_user.present?
   end
 
   def log_out
-    session.delete(:user_id)
     @current_user = nil
+    cookies.delete(:user_id)
   end
 
   def current_user?(user)
@@ -29,5 +30,9 @@ module SessionsHelper
 
   def store_location
     session[:forwarding_url] = request.original_url if request.get?
+  end
+
+  private def cookie_expiration_time
+    params[:remember_me] == '1' ? 1.day.from_now : nil
   end
 end
