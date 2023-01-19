@@ -5,8 +5,15 @@ class User < ApplicationRecord
        }
 
   has_secure_password
+  has_one_attached :profile_picture do |attachable|
+    attachable.variant :thumb, resize_to_limit: [100, 100]
+    attachable.variant :mini, resize_to_limit: [40, 40]
+  end
+  
   before_create :confirmation_token
   before_save { self.email = email.downcase }
+
+
   validates :name, presence: true
   validates :email, presence: true, format: { with: VALID_EMAIL_REGEX }, uniqueness: { case_sensitive: false }
   validates :password, presence: true, length: { minimum: 6 }, if: :password_set?
