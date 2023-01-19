@@ -1,11 +1,13 @@
-<h1>Hello, <%= current_user.name %></h1>
+<h1>Hello, <%= @user.name %></h1>
 <div class="col-md-4 offset-4">
   <div class="text-center">
-    <%= image_tag user_profile_picture_link(current_user), class: 'profile-img rounded mx-auto d-block' %>
-    <div ><Strong><%= current_user.name %></Strong></div>
-    <div><%= current_user.email %></div>
+    <%= image_tag user_profile_picture_link(@user), class: 'profile-img rounded mx-auto d-block' %>
+    <div ><Strong><%= @user.name %></Strong></div>
+    <div><%= @user.email %></div>
     <br />
+    <% if current_user? @user %>
     <%= button_to 'Edit Profile', edit_user_path, method: :get, class: "mt-2 btn btn-primary" %>
+    <% end %>
   </div>
 </div>
 </div>
