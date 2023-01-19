@@ -5,11 +5,12 @@ class User < ApplicationRecord
        }
 
   has_secure_password
+  acts_as_taggable_on :topics
   has_one_attached :profile_picture do |attachable|
     attachable.variant :thumb, resize_to_limit: [100, 100]
     attachable.variant :mini, resize_to_limit: [40, 40]
   end
-  
+
   before_create :confirmation_token
   before_save { self.email = email.downcase }
 
