@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   before_action :logged_in_user, only: [:show]
-  before_action :set_user, only: [:show]
+  before_action :set_user, only: [:show,:edit,:update]
   before_action :set_user_by_email_confirm_token, only: [:confirm_email]
 
   def new
@@ -19,6 +19,17 @@ class UsersController < ApplicationController
     end
   end
 
+  def edit
+  end
+
+  def update
+    if @user.update(user_params)
+      redirect_to user_path, notice: t("profile_update_success")
+    else
+      render :edit, status: :unprocessable_entity
+    end
+  end
+
   def confirm_email
     if @user
       @user.email_activate
@@ -34,7 +45,7 @@ class UsersController < ApplicationController
   private
 
   def user_params
-    params.require(:user).permit(:name, :email, :password, :password_confirmation)
+    params.require(:user).permit(:name, :email, :password, :password_confirmation,:profile_picture)
   end
 
   def set_user
