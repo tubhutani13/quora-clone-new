@@ -11,7 +11,11 @@ Rails.application.routes.draw do
   end
   resources :password_resets
   resources :sessions, only: [:new, :create, :destroy]
-  resources :questions, param: :published_token
+  resources :questions, param: :published_token do
+    collection do
+      match 'search' => 'questions#search', via: [:get, :post], as: :search
+    end
+  end
 
   get "/login", to: "sessions#new"
   post "/login", to: "sessions#create"
