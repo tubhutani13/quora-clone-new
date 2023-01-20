@@ -2,6 +2,7 @@ class Question < ApplicationRecord
   include ::TokenHandler
 
   belongs_to :user
+  has_many :answers, dependent: :restrict_with_error
 
   before_create -> { generate_token(:published_token) }
 

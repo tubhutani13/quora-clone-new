@@ -12,6 +12,7 @@ Rails.application.routes.draw do
   resources :password_resets
   resources :sessions, only: [:new, :create, :destroy]
   resources :questions, param: :published_token do
+    resources :answers
     collection do
       match 'search' => 'questions#search', via: [:get, :post], as: :search
     end
