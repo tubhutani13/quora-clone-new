@@ -38,5 +38,6 @@ class AnswersController < ApplicationController
   end
 
   def set_answer
+    @answer = Answer.find_by(params[:id])
   end
 end
