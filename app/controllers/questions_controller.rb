@@ -39,7 +39,7 @@ class QuestionsController < ApplicationController
 
   def destroy
     @question.destroy
-    redirect_to user_path, notice: t("Question deleted successfully")
+    redirect_to user_path(current_user), notice: t("Question deleted successfully")
   end
 
   def show
