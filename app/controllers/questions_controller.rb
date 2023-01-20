@@ -38,8 +38,11 @@ class QuestionsController < ApplicationController
   end
 
   def destroy
-    @question.destroy
-    redirect_to user_path, notice: t("Question deleted successfully")
+    if @question.destroy
+      redirect_to user_path, notice: t("Question deleted successfully")
+    else
+      render :show, status: :unprocessable_entity
+    end
   end
 
   def show
