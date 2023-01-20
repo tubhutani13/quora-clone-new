@@ -3,6 +3,7 @@ class Question < ApplicationRecord
 
   belongs_to :user
   has_many :answers, dependent: :restrict_with_error
+  has_many :comments, as: :commentable, dependent: :restrict_with_error
 
   before_create -> { generate_token(:published_token) }
 
