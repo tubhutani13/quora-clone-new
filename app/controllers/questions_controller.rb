@@ -48,10 +48,10 @@ class QuestionsController < ApplicationController
   private
 
   def question_params
-    params.require(:question).permit(:title, :content, :pdf_attachment, topic_list: [])
+    params.require(:question).permit(:title, :content, :pdf_attachment, :published_token, topic_list: [])
   end
 
   def set_question
-    @question = Question.find(params[:id])
+    @question = Question.find_by(published_token: params[:published_token])
   end
 end

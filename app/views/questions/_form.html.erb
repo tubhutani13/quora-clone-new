@@ -9,9 +9,9 @@
       <%= f.label :pdf_attachment, 'Upload pdf attacment' %>
       <%= f.file_field :pdf_attachment, accept: 'pdf/pdf' %>
       <%= render partial: 'topics/form',locals: { form: f, entity: @question }%>
-      <%= f.submit "Publish Question", class: "mt-2 btn btn-primary" %>
+      <%= f.submit "Publish Question",name: "publish", class: "mt-2 btn btn-primary" %>
       <% unless @question.published? %>
-        <%= f.submit "Draft Question",name: "draft", class: "mt-2 btn btn-primary" %>
+        <%= f.submit "Draft Question", class: "mt-2 btn btn-primary" %>
       <% end %>
     <% end %>
   </div>

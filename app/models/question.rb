@@ -24,6 +24,10 @@ class Question < ApplicationRecord
     end
   end
 
+  def to_param
+    published_token
+  end
+  
   def published?
     return !(self.published_at.nil?)
   end
