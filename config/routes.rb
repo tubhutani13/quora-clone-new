@@ -11,6 +11,8 @@ Rails.application.routes.draw do
   end
   resources :password_resets
   resources :sessions, only: [:new,:create, :destroy]
+  resources :questions
+  
   get "/login", to: "sessions#new"
   post "/login", to: "sessions#create"
   get "/logout", to: "sessions#destroy"

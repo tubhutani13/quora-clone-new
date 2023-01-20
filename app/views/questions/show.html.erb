@@ -1,0 +1,19 @@
+<div class="col-md-4 offset-4">
+  <div class="text-center">
+    <div ><Strong><%= @question.title %></Strong></div>
+    <div><%= @question.content %></div>
+  <% if @question.pdf_attachment.present?%>
+    <iframe src="<%= rails_blob_path(@question.pdf_attachment) %>" scrolling="no" style="overflow:hidden" height="200" width="300"></iframe>
+    <%= link_to  "Open PDF",rails_blob_path(@question.pdf_attachment) %>
+    <% end %>
+    <br />
+    <div>Question topics</div>
+    <div class="topics-container">
+      <%= render partial: 'topics/topic', collection: @question.topics %>
+    </div>
+    <% if @question.user_id == current_user&.id %>
+    <%= button_to 'Edit Question', edit_question_path, method: :get, class: "mt-2 btn btn-primary" %>
+    <%= button_to "Delete Question", @question,method: :delete, class: "mt-2 btn btn-primary", form: { data: {turbo_confirm: 'Are you sure?'}}  %>
+    <% end %>
+  </div>
+</div>
