@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   resources :users do
     get '/followers', to: "users#followers"
     get '/following', to: "users#followees"
+    get 'credits'
     member do
       get :confirm_email
     end

@@ -5,6 +5,8 @@
     <div ><Strong><%= @user.name %></Strong></div>
     <div><%= @user.email %></div>
     <br />
+    <div>Your Credits: <%= @user.credits_count %></div>
+  <%= link_to 'Your credits history', user_credits_path %>
     <div class= "d-flex justify-content-around">
       <%= button_to 'Followers', user_followers_path(@user), method: :get, class: "mt-2 btn btn-primary" %>
       <%= button_to 'Following', user_following_path(@user), method: :get, class: "mt-2 btn btn-primary" %>

@@ -4,6 +4,7 @@ class Question < ApplicationRecord
   belongs_to :user
   has_many :answers, dependent: :restrict_with_error
   has_many :comments, as: :commentable, dependent: :restrict_with_error
+  has_many :credits, as: :creditable
 
   before_create -> { generate_token(:published_token) }
 
@@ -13,6 +14,7 @@ class Question < ApplicationRecord
     validates :title, presence: true, uniqueness: true
     validates :content, presence: true, length: { minimum: 15 }
     validates :topic_list, presence: true
+    validates :published_at, min_credits: true
   end
 
   has_one_attached :pdf_attachment
