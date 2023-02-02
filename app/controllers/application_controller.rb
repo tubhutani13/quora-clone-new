@@ -9,10 +9,10 @@ class ApplicationController < ActionController::Base
 
   private
 
-  def logged_in_user
+  def authorize_user
     unless logged_in?
       store_location
-      flash[:danger] = "Please log in."
+      flash[:danger] = t("login_prompt")
       redirect_to login_url
     end
   end

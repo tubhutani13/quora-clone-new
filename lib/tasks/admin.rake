@@ -15,7 +15,7 @@ namespace :admin do
       :email => email.to_s,
       :password => password.to_s,
       :password_confirmation => password_confirmation.to_s,
-      :verified => true,
+      :verified_at => Time.now,
     )
     if user.save
       puts "success"

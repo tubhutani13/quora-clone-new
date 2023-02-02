@@ -13,10 +13,13 @@ Rails.application.routes.draw do
   resources :sessions, only: [:new, :create, :destroy]
   resources :questions, param: :published_token do
     collection do
-      match 'search' => 'questions#search', via: [:get, :post], as: :search
+      match "search" => "questions#search", via: [:get, :post], as: :search
     end
   end
 
+  resources :passwords
+  resources :sessions, only: [:new, :create, :destroy]
+  resources :questions, param: :permalink
   get "/login", to: "sessions#new"
   post "/login", to: "sessions#create"
   get "/logout", to: "sessions#destroy"
