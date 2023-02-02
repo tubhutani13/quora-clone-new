@@ -1,6 +1,7 @@
 class Question < ApplicationRecord
   include ::TokenHandler
 
+  scope :published_questions,-> {where.not(published_at: :nil)}
   before_create -> { generate_token(:permalink) }
   before_save :ensure_published_question_cannot_be_drafted
   

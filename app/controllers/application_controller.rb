@@ -18,6 +18,6 @@ class ApplicationController < ActionController::Base
   end
 
   def set_global_search_variable
-    @q = Question.ransack(params[:q]&.merge(published_true: 1))
+    @q = Question.published_questions.ransack(params[:q])
   end
 end
