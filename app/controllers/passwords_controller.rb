@@ -1,6 +1,7 @@
 class PasswordsController < ApplicationController
   before_action :set_user_by_password_reset_token, only: [:edit, :update]
   before_action :set_user_by_email, only: [:create]
+  before_action :check_password_expiration, only: [:update]
 
   def new
   end
@@ -12,16 +13,13 @@ class PasswordsController < ApplicationController
   end
 
   def update
-    if @user.password_reset_sent_at < 2.hour.ago
-      flash[:notice] = t("password_expired")
-      redirect_to new_password_reset_path
-    elsif @user.update(user_params)
+    if @user.update(user_params)
       flash[:notice] = t("password_reset_success")
       redirect_to new_session_path
     else
       render :edit
     end
-  end
+  end 
 
   private
 
@@ -38,6 +36,13 @@ class PasswordsController < ApplicationController
     unless @user
       flash[:error] = "Invalid email address"
       render :new, status: :unprocessable_entity
+    end
+  end
+
+  def check_password_expiration
+    if @user.password_reset_sent_at < 2.hour.ago
+      flash[:notice] = t("password_expired")
+      redirect_to new_password_reset_path
     end
   end
 end
