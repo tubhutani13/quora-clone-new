@@ -9,7 +9,7 @@ Rails.application.routes.draw do
       get :confirm_email
     end
   end
-  resources :password_resets
+  resources :passwords
   resources :sessions, only: [:new,:create, :destroy]
   get "/login", to: "sessions#new"
   post "/login", to: "sessions#create"

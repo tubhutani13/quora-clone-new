@@ -1,4 +1,4 @@
-class PasswordResetsController < ApplicationController
+class PasswordsController < ApplicationController
   before_action :set_user_by_password_reset_token, only: [:edit, :update]
   before_action :set_user_by_email, only: [:create]
 
