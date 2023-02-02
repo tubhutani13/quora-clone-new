@@ -33,6 +33,6 @@ module SessionsHelper
   end
 
   private def cookie_expiration_time
-    params[:remember_me] == '1' ? 1.day.from_now : nil
+    params[:remember_me] == '1' ? COOKIE_EXPIRATION_TIME : nil
   end
 end
