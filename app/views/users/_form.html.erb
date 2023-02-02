@@ -3,7 +3,7 @@
   <div class="col-md-4 offset-4">
     <%= form_with(model: @user, local: true) do |f| %>
       <div class="img-field">
-        <%= image_tag user_profile_picture_link(current_user), class: 'profile-img' %>
+        <%= image_tag user_profile_picture_link(@user), class: 'profile-img' %>
         <%= f.label :profile_picture, 'Upload New Profile Picture' %>
         <%= f.file_field :profile_picture, accept: 'image/png,image/gif,image/jpg' %>
       </div>
@@ -21,6 +21,7 @@
         </div>
       <% end %>
 
+      <%= render partial: 'topics/form',locals: { form: f, entity: @user }%>
       <%= f.submit "Edit my account", class: "mt-2 btn btn-primary" %>
     <% end %>
   </div>
