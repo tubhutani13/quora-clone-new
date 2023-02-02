@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :logged_in_user, only: [:show]
+  before_action :authorize_user, only: [:show]
   before_action :set_user, only: [:show]
   before_action :set_user_by_email_confirm_token, only: [:confirm_email]
 

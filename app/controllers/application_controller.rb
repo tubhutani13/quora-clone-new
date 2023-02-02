@@ -3,7 +3,7 @@ class ApplicationController < ActionController::Base
 
   private
 
-  def logged_in_user
+  def authorize_user
     unless logged_in?
       store_location
       flash[:danger] = t("login_prompt")
