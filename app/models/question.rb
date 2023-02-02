@@ -3,7 +3,7 @@ class Question < ApplicationRecord
 
   belongs_to :user
 
-  before_create -> { generate_token(:published_token) }
+  before_create -> { generate_token(:permalink) }
 
   before_save :ensure_published_question_cannot_be_drafted
 
@@ -25,9 +25,9 @@ class Question < ApplicationRecord
   end
 
   def to_param
-    published_token
+    permalink
   end
-  
+
   def published?
     return !(self.published_at.nil?)
   end

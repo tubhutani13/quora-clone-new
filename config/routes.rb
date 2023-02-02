@@ -12,7 +12,7 @@ Rails.application.routes.draw do
 
   resources :passwords
   resources :sessions, only: [:new, :create, :destroy]
-  resources :questions, param: :published_token
+  resources :questions, param: :permalink
   get "/login", to: "sessions#new"
   post "/login", to: "sessions#create"
   get "/logout", to: "sessions#destroy"
