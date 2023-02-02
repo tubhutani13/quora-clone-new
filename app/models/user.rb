@@ -1,8 +1,8 @@
 class User < ApplicationRecord
   enum role: {
-      "user" => 0,
-      "admin" => 1,
-    }
+         "user" => 0,
+         "admin" => 1,
+       }
 
   has_secure_password
   has_one_attached :profile_picture, dependent: :destroy do |attachable|
@@ -12,14 +12,14 @@ class User < ApplicationRecord
   
   before_create :confirmation_token
   after_create_commit :send_confirmation_email
-  before_save { self.email = email.downcase }
+  before_save :downcase_email
 
   validates :name, presence: true
   validates :email, presence: true, format: { with: VALID_EMAIL_REGEX }, uniqueness: { case_sensitive: false }
   validates :password, presence: true, length: { minimum: 6 }, if: :password_set?
 
   def verified?
-    self.verified_at.present?
+    verified_at.present?
   end
 
   def email_activate
@@ -30,7 +30,7 @@ class User < ApplicationRecord
     generate_token(:password_reset_token)
     self.password_reset_sent_at = Time.now
     save
-    UserMailer.forgot_password(self.id).deliver
+    UserMailer.forgot_password(id).deliver
   end
 
   private
@@ -52,6 +52,10 @@ class User < ApplicationRecord
   end
 
   def send_confirmation_email
-    UserMailer.registration_confirmation(@user.id).deliver_later
+    UserMailer.registration_confirmation(id).deliver_later
+  end
+
+  def downcase_email
+    self.email = email.downcase
   end
 end
