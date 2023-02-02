@@ -15,7 +15,6 @@ module SessionsHelper
   end
 
   def log_out
-    @current_user = nil
     cookies.delete(:user_id)
   end
 
