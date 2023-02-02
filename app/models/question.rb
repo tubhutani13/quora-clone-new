@@ -1,18 +1,16 @@
 class Question < ApplicationRecord
   include ::TokenHandler
 
-  belongs_to :user
-
   before_create -> { generate_token(:permalink) }
-
   before_save :ensure_published_question_cannot_be_drafted
-
+  
   with_options if: :published? do
     validates :title, presence: true, uniqueness: true
     validates :content, presence: true, length: { minimum: 15 }
     validates :topic_list, presence: true
   end
-
+  
+  belongs_to :user
   has_one_attached :pdf_attachment
   has_rich_text :content
   acts_as_taggable_on :topics
@@ -29,7 +27,7 @@ class Question < ApplicationRecord
   end
 
   def published?
-    return !(self.published_at.nil?)
+    self.published_at.present?
   end
 
   def publish_question(published)

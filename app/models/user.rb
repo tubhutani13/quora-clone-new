@@ -5,18 +5,17 @@ class User < ApplicationRecord
     "admin" => 1,
   }
 
-  has_many :questions, dependent: :nullify
+  before_create -> { generate_token(:email_confirm_token) }
+  after_create_commit :send_confirmation_email
+  before_save { self.email = email.downcase }
 
+  has_many :questions, dependent: :restrict_with_error
   has_secure_password
   acts_as_taggable_on :topics
   has_one_attached :profile_picture, dependent: :destroy do |attachable|
     attachable.variant :thumb, resize_to_limit: [100, 100]
     attachable.variant :mini, resize_to_limit: [40, 40]
   end
-
-  before_create -> { generate_token(:email_confirm_token) }
-  after_create_commit :send_confirmation_email
-  before_save { self.email = email.downcase }
 
   validates :name, presence: true
   validates :email, presence: true, format: { with: VALID_EMAIL_REGEX }, uniqueness: { case_sensitive: false }
