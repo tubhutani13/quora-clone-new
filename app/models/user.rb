@@ -1,33 +1,30 @@
 class User < ApplicationRecord
   enum role: {
-         "admin" => 1,
-         "user" => 0,
-       }
+      "user" => 0,
+      "admin" => 1,
+    }
 
   has_secure_password
   before_create :confirmation_token
+  after_create_commit :send_confirmation_email
   before_save { self.email = email.downcase }
+
   validates :name, presence: true
   validates :email, presence: true, format: { with: VALID_EMAIL_REGEX }, uniqueness: { case_sensitive: false }
   validates :password, presence: true, length: { minimum: 6 }, if: :password_set?
 
   def verified?
-    if self.verified_at.nil?
-      return false
-    end
-    true
+    self.verified_at.present?
   end
 
   def email_activate
-    self.verified_at = Time.now
-    self.email_confirm_token = nil
-    save!
+    update(email_confirm_token: nil, verified_at: Time.current)
   end
 
   def send_password_reset
     generate_token(:password_reset_token)
     self.password_reset_sent_at = Time.now
-    save!
+    save
     UserMailer.forgot_password(self.id).deliver
   end
 
@@ -47,5 +44,9 @@ class User < ApplicationRecord
 
   def password_set?
     return !(self.password.blank? && !self.new_record?)
+  end
+
+  def send_confirmation_email
+    UserMailer.registration_confirmation(@user.id).deliver_later
   end
 end
