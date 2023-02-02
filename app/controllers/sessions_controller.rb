@@ -21,13 +21,13 @@ class SessionsController < ApplicationController
 
   private def set_user
     unless @user = User.find_by(email: params[:email].downcase)
-      redirect_to login_url, notice: t("invalid_combination")
+      redirect_to login_url, notice: t("invalid_email_pass_combination")
     end
   end
 
   private def authenticate_user
     unless @user.authenticate(params[:password])
-      redirect_to login_url, notice: t("invalid_combination")
+      redirect_to login_url, notice: t("invalid_email_pass_combination")
     end
   end
 end
