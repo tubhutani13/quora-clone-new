@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_01_21_074847) do
+ActiveRecord::Schema[7.0].define(version: 2023_02_01_115648) do
   create_table "action_text_rich_texts", force: :cascade do |t|
     t.string "name", null: false
     t.text "body"
@@ -54,6 +54,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_21_074847) do
     t.integer "question_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "published_at"
     t.index ["question_id"], name: "index_answers_on_question_id"
     t.index ["user_id"], name: "index_answers_on_user_id"
   end
@@ -65,6 +66,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_21_074847) do
     t.integer "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "published_at"
     t.index ["commentable_type", "commentable_id"], name: "index_comments_on_commentable"
     t.index ["user_id"], name: "index_comments_on_user_id"
   end
@@ -96,6 +98,17 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_21_074847) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_questions_on_user_id"
+  end
+
+  create_table "reports", force: :cascade do |t|
+    t.string "reason", null: false
+    t.integer "user_id", null: false
+    t.string "reportable_type", null: false
+    t.integer "reportable_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["reportable_type", "reportable_id"], name: "index_reports_on_reportable"
+    t.index ["user_id"], name: "index_reports_on_user_id"
   end
 
   create_table "taggings", force: :cascade do |t|
@@ -150,5 +163,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_21_074847) do
   add_foreign_key "comments", "users"
   add_foreign_key "credits", "users"
   add_foreign_key "questions", "users"
+  add_foreign_key "reports", "users"
   add_foreign_key "taggings", "tags"
 end

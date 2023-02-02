@@ -30,7 +30,7 @@ class AnswersController < ApplicationController
 
   private 
   def answer_params
-    params.require(:answer).permit(:user_id,:answer_body,:question_published_token)
+    params.require(:answer).permit(:user_id,:answer_body,:question_published_token, published_at: Time.now)
   end
 
   def set_question
