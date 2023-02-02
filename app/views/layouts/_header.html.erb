@@ -3,14 +3,17 @@
     <div class="navbar-header">
       <%= link_to "Home", root_path, class: "mx-2" %>
     </div>
-    <ul class="nav navbar-right d-flex align-items-center">
-      <% if logged_in? %>
+    <% if logged_in? %>
+      <ul class="nav navbar-right d-flex align-items-center">
         <li><%= link_to "Your Profile", user_path(current_user), class: "mx-2", method: :get %></li>
         <li><%= link_to "Log out", logout_path, class: "mx-2", method: :delete %></li>
-      <% else %>
+        <li><%= button_to 'New Question', new_question_path,method: :get ,class: "btn btn-outline-primary" %></li>
+      </ul>
+    <% else %>
+      <ul class="nav navbar-right d-flex align-items-center">
         <li><%= link_to "Log in", login_path, class: "mx-2" %></li>
         <li><%= link_to "Sign up", signup_path, class: "mx-2" %></li>
-      <% end %>
-    </ul>
+      </ul>
+    <% end %>
   </div>
 </nav>
