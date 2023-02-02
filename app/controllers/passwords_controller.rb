@@ -42,7 +42,7 @@ class PasswordsController < ApplicationController
   def check_password_expiration
     if @user.password_reset_sent_at < 2.hour.ago
       flash[:notice] = t("password_expired")
-      redirect_to new_password_reset_path
+      redirect_to new_password_path
     end
   end
 end
