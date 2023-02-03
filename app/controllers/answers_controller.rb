@@ -36,11 +36,11 @@ class AnswersController < ApplicationController
   private
 
   def answer_params
-    params.require(:answer).permit(:user_id, :answer_body, :question_published_token)
+    params.require(:answer).permit(:user_id, :answer_body, :question_permalink)
   end
 
   def set_question
-    @question = Question.find_by(published_token: params[:question_published_token])
+    @question = Question.find_by(permalink: params[:question_permalink])
   end
 
   def set_answer

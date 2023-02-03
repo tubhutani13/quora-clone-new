@@ -1,7 +1,6 @@
 <div class="question mt-2">
   <div class="desc"><%= answer.answer_body.to_plain_text %></div>
   <% if answer.user_id == current_user&.id  %>
-    <%= button_to "Delete Answer", question_answer_path(entity.published_token , answer.id ),method: :delete, class: "mt-2 btn btn-secondary", form: { data: {turbo_confirm: 'Are you sure?'}}  %>
+    <%= button_to "Delete Answer", question_answer_path(entity.permalink , answer.id ),method: :delete, class: "mt-2 btn btn-secondary", form: { data: {turbo_confirm: 'Are you sure?'}}  %>
   <%end  %>
 </div>
-
