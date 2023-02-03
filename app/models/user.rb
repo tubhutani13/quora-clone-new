@@ -5,6 +5,11 @@ class User < ApplicationRecord
        }
 
   has_secure_password
+  has_one_attached :profile_picture, dependent: :destroy do |attachable|
+    attachable.variant :thumb, resize_to_limit: [100, 100]
+    attachable.variant :mini, resize_to_limit: [40, 40]
+  end
+  
   before_create :confirmation_token
   after_create_commit :send_confirmation_email
   before_save :downcase_email
