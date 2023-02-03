@@ -19,7 +19,10 @@
   <% else %>
     <% if logged_in? %>
       <%= render partial: 'answers/form',locals:{ entity: @question, answer:@question.answers.build } %>
+      <%= render partial: 'comments/form',locals:{ entity: @question, comment:@question.comments.build, parent_entity: nil } %>
     <% end %>
   <% end %>
 </div>
+<%= render partial: 'comments/comment', collection: @question.comments.where.not(id: nil),locals:{ entity: @question, parent_entity: nil} %>
 <%= render partial: 'answers/answer', collection: @question.answers.where.not(id: nil),locals:{ entity: @question}%>
+</div>

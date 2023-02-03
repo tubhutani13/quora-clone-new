@@ -11,8 +11,12 @@ Rails.application.routes.draw do
   end
   resources :passwords
   resources :sessions, only: [:new, :create, :destroy]
+
   resources :questions, param: :permalink do
-    resources :answers
+    resources :answers do
+      resources :comments
+    end
+    resources :comments
     collection do
       match "search" => "questions#search", via: [:get, :post], as: :search
     end
