@@ -1,6 +1,7 @@
 class CommentsController < ApplicationController
   before_action :set_comment, only: [:destroy]
-  before_action :set_entity
+  before_action :set_entity, only: [:create]
+  before_action :set_question
 
   def create
     @comment = @entity.comments.new(comment_params)
@@ -22,7 +23,7 @@ class CommentsController < ApplicationController
   private
 
   def comment_params
-    params.require(:comment).permit(:user_id, :body, :commentable_id)
+    params.require(:comment).permit(:user_id, :body, :commentable_id, :commentable_type)
   end
 
   def set_comment
@@ -30,11 +31,10 @@ class CommentsController < ApplicationController
   end
 
   def set_entity
-    if params[:answer_id]
-      @entity = Answer.find(params[:answer_id])
-    else
-      @entity = Question.find_by(published_token: params[:question_published_token])
-    end
-    @question = Question.find_by(published_token: params[:question_published_token])
+    @entity = comment_params[:commentable_type].constantize.find(comment_params[:commentable_id])
+  end
+  
+  def set_question
+    @question = Question.find_by(permalink: params[:question_permalink])
   end
 end
