@@ -9,11 +9,10 @@ Rails.application.routes.draw do
     get "/following", to: "users#followees"
     member do
       get :confirm_email
-      post "follow", to: "users#follow", as: "follow_user"
-      post "unfollow", to: "users#unfollow", as: "unfollow_user"
+      post "follow"
+      post "unfollow"
     end
   end
-
   resources :passwords
   resources :sessions, only: [:new, :create, :destroy]
 
