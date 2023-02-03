@@ -78,12 +78,23 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_20_082902) do
 
   create_table "questions", force: :cascade do |t|
     t.string "title"
-    t.string "published_token"
+    t.string "permalink"
     t.datetime "published_at"
     t.integer "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_questions_on_user_id"
+  end
+
+  create_table "reports", force: :cascade do |t|
+    t.string "reason", null: false
+    t.integer "user_id", null: false
+    t.string "reportable_type", null: false
+    t.integer "reportable_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["reportable_type", "reportable_id"], name: "index_reports_on_reportable"
+    t.index ["user_id"], name: "index_reports_on_user_id"
   end
 
   create_table "taggings", force: :cascade do |t|
@@ -128,6 +139,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_20_082902) do
     t.string "password_reset_sent_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "credits_count", default: 0
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
@@ -136,5 +148,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_20_082902) do
   add_foreign_key "answers", "users"
   add_foreign_key "comments", "users"
   add_foreign_key "questions", "users"
+  add_foreign_key "reports", "users"
   add_foreign_key "taggings", "tags"
 end
