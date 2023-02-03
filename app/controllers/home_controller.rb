@@ -8,8 +8,7 @@ class HomeController < ApplicationController
 
   def ransack_params
     if params[:follow]
-      { topics_name_in: (params[:query] || current_user&.topic_list), published_true: 1,
-        user_id_in: current_user.followers.ids }
+      { topics_name_in: (params[:query] || current_user&.topic_list),user_id_in: current_user.followees.ids }
     else
       { topics_name_in: (params[:query] || current_user&.topic_list), published_true: 1 }
     end
