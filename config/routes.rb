@@ -9,10 +9,15 @@ Rails.application.routes.draw do
       get :confirm_email
     end
   end
-
   resources :passwords
   resources :sessions, only: [:new, :create, :destroy]
-  resources :questions, param: :permalink
+  resources :questions, param: :permalink do
+    collection do
+      match "search" => "questions#search", via: [:get, :post], as: :search
+    end
+  end
+
+
   get "/login", to: "sessions#new"
   post "/login", to: "sessions#create"
   get "/logout", to: "sessions#destroy"
