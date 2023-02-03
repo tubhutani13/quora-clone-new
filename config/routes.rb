@@ -13,10 +13,11 @@ Rails.application.routes.draw do
   end
   post '/users/:id/follow', to: "users#follow", as: "follow_user"
   post '/users/:id/unfollow', to: "users#unfollow", as: "unfollow_user"
-  
-  resources :password_resets
+
+  resources :passwords
   resources :sessions, only: [:new, :create, :destroy]
-  resources :questions, param: :published_token do
+
+  resources :questions, param: :permalink do
     resources :answers do
       resources :comments
     end

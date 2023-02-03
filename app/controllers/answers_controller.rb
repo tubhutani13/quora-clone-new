@@ -1,6 +1,7 @@
 class AnswersController < ApplicationController
-  before_action :set_question 
-  before_action :set_answer, only: [:edit,:destroy]
+  before_action :set_question
+  before_action :set_answer, only: [:edit, :destroy]
+
   def new
     @answer = @question.answers.build
   end
@@ -9,32 +10,37 @@ class AnswersController < ApplicationController
   end
 
   def create
-    @answer = @question.answers.new(answer_params)
-    @answer.user = current_user
+    @answer = @question.answers.new(answer_params.merge(user: current_user))
     if @answer.save
-      QuestionMailer.answer_posted(@answer.id)
-      redirect_to @question, notice: "Answer submitted successfully" 
+      redirect_to @question, notice: t("answer_publish_success")
     else
-      flash[:error] = "error while creating answer"
+      flash[:error] = t("answer_publish_error")
       render "questions/show", status: :unprocessable_entity
     end
-    
   end
 
   def destroy
-    @answer.destroy
-
-    redirect_to @question, notice: "Answer Deleted successfully" 
-
+    if @answer.user == current_user
+      if @answer.destroy
+        redirect_to @question, notice: t("answer_delete_success")
+      else
+        flash[:error] = t("answer_delete_error")
+        render "questions/show", status: :unprocessable_entity
+      end
+    else
+      flash[:error] = t("answer_user_error")
+      render "questions/show", status: :unprocessable_entity
+    end
   end
 
-  private 
+  private
+
   def answer_params
-    params.require(:answer).permit(:user_id,:answer_body,:question_published_token)
+    params.require(:answer).permit(:user_id, :answer_body, :question_permalink)
   end
 
   def set_question
-    @question = Question.find_by(published_token: params[:question_published_token])
+    @question = Question.find_by(permalink: params[:question_permalink])
   end
 
   def set_answer
