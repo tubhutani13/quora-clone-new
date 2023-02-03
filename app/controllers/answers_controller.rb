@@ -12,17 +12,20 @@ class AnswersController < ApplicationController
   def create
     @answer = @question.answers.new(answer_params.merge(user: current_user))
     if @answer.save
-      redirect_to @question, notice: "Answer submitted successfully"
+      redirect_to @question, notice: t("answer_publish_success")
     else
-      flash[:error] = "error while creating answer"
+      flash[:error] = t("answer_publish_error")
       render "questions/show", status: :unprocessable_entity
     end
   end
 
   def destroy
-    @answer.destroy
-
-    redirect_to @question, notice: "Answer Deleted successfully"
+    if @answer.destroy
+      redirect_to @question, notice: t("answer_delete_success")
+    else
+      flash[:error] = t("answer_delete_error")
+      render "questions/show", status: :unprocessable_entity
+    end
   end
 
   private

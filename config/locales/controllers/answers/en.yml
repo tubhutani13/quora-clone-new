@@ -1,0 +1,6 @@
+en:
+  answer_publish_success: "Answer published successfully"
+  answer_delete_success: "Answer deleted successfully"
+  answer_publish_error: "Error while creating answer"
+  answer_delete_error: "Error while deleting answer"
+
