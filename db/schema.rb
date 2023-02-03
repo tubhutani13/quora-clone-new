@@ -92,7 +92,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_01_115648) do
 
   create_table "questions", force: :cascade do |t|
     t.string "title"
-    t.string "published_token"
+    t.string "permalink"
     t.datetime "published_at"
     t.integer "user_id", null: false
     t.datetime "created_at", null: false

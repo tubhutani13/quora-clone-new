@@ -6,7 +6,7 @@
     <%= label_tag "Questions from People I follow"%>
         <%= check_box_tag('follow') %>
       <div class= "d-flex flex-column topic-menu">
-        <% Topic.all.each do |topic| %>
+        <% @topics.each do |topic| %>
           <div class="d-flex justify-content-between">
             <%= label_tag topic.name%>
             <%= check_box_tag('query[]', topic.name ) %>
