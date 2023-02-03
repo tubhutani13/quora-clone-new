@@ -54,40 +54,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_02_084800) do
     t.integer "question_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.datetime "published_at"
     t.index ["question_id"], name: "index_answers_on_question_id"
     t.index ["user_id"], name: "index_answers_on_user_id"
-  end
-
-  create_table "comments", force: :cascade do |t|
-    t.text "body"
-    t.string "commentable_type", null: false
-    t.integer "commentable_id", null: false
-    t.integer "user_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.datetime "published_at"
-    t.index ["commentable_type", "commentable_id"], name: "index_comments_on_commentable"
-    t.index ["user_id"], name: "index_comments_on_user_id"
-  end
-
-  create_table "credits", force: :cascade do |t|
-    t.integer "amount"
-    t.integer "description"
-    t.integer "user_id", null: false
-    t.string "creditable_type", null: false
-    t.integer "creditable_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["creditable_type", "creditable_id"], name: "index_credits_on_creditable"
-    t.index ["user_id"], name: "index_credits_on_user_id"
-  end
-
-  create_table "follows", force: :cascade do |t|
-    t.integer "follower_id"
-    t.integer "followee_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
   end
 
   create_table "questions", force: :cascade do |t|
@@ -160,8 +128,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_02_084800) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "answers", "questions"
   add_foreign_key "answers", "users"
-  add_foreign_key "comments", "users"
-  add_foreign_key "credits", "users"
   add_foreign_key "questions", "users"
   add_foreign_key "reports", "users"
   add_foreign_key "taggings", "tags"

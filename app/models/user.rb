@@ -5,11 +5,13 @@ class User < ApplicationRecord
     "admin" => 1,
   }
 
+
   before_create -> { generate_token(:email_confirm_token) }
   after_create_commit :send_confirmation_email
   before_save :downcase_email
-
+  
   has_many :questions, dependent: :restrict_with_error
+  has_many :answers, dependent: :nullify
   has_secure_password
   acts_as_taggable_on :topics
   has_one_attached :profile_picture, dependent: :destroy do |attachable|
