@@ -1,9 +1,9 @@
 class Question < ApplicationRecord
   include ::TokenHandler
-
+  include CommentsHandler
+  
   belongs_to :user
   has_many :answers, dependent: :restrict_with_error
-  has_many :comments, as: :commentable, dependent: :restrict_with_error
 
   scope :published_questions, -> { where.not(published_at: :nil) }
   before_create -> { generate_token(:permalink) }

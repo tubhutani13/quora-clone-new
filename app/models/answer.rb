@@ -1,4 +1,6 @@
 class Answer < ApplicationRecord
+  include CommentsHandler
+  
   after_create_commit :send_confirmation_email
   validates_presence_of :answer_body
 
