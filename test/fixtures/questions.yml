@@ -2,12 +2,12 @@
 
 one:
   title: MyString
-  published_token: MyString
+  permalink: MyString
   published_at: 2023-01-20 10:53:12
   users: one
 
 two:
   title: MyString
-  published_token: MyString
+  permalink: MyString
   published_at: 2023-01-20 10:53:12
   users: two

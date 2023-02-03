@@ -8,8 +8,6 @@ class UserMailer < ActionMailer::Base
 
   def forgot_password(user_id)
     @user = User.find(user_id)
-    @greeting = "Hi"
-
     mail to: @user.email, :subject => t("Reset_password_instructions")
   end
 end
