@@ -5,8 +5,8 @@ class Question < ApplicationRecord
   has_many :answers, dependent: :restrict_with_error
   has_many :comments, as: :commentable, dependent: :restrict_with_error
 
-  before_create -> { generate_token(:published_token) }
-
+  scope :published_questions, -> { where.not(published_at: :nil) }
+  before_create -> { generate_token(:permalink) }
   before_save :ensure_published_question_cannot_be_drafted
 
   with_options if: :published? do
@@ -15,6 +15,7 @@ class Question < ApplicationRecord
     validates :topic_list, presence: true
   end
 
+  belongs_to :user
   has_one_attached :pdf_attachment
   has_rich_text :content
   acts_as_taggable_on :topics
@@ -27,11 +28,11 @@ class Question < ApplicationRecord
   end
 
   def to_param
-    published_token
+    permalink
   end
-  
+
   def published?
-    return !(self.published_at.nil?)
+    self.published_at.present?
   end
 
   def publish_question(published)

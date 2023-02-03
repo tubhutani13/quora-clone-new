@@ -8,8 +8,8 @@ class QuestionMailer < ApplicationMailer
   default :from => "me@mydomain.com"
   def answer_posted(answer_id)
     @answer = Answer.find(answer_id)
-    @question = Question.find(answer.question_id)
-    @user = User.find(@question.user_id)
+    @question = @answer.question
+    @user = @question.user
     mail(:to => "#{@user.name} <#{@user.email}>", :subject => "Answer posted on you question")
   end
 
