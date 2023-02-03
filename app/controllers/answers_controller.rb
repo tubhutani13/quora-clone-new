@@ -20,10 +20,15 @@ class AnswersController < ApplicationController
   end
 
   def destroy
-    if @answer.destroy
-      redirect_to @question, notice: t("answer_delete_success")
+    if @answer.user == current_user
+      if @answer.destroy
+        redirect_to @question, notice: t("answer_delete_success")
+      else
+        flash[:error] = t("answer_delete_error")
+        render "questions/show", status: :unprocessable_entity
+      end
     else
-      flash[:error] = t("answer_delete_error")
+      flash[:error] = t("answer_user_error")
       render "questions/show", status: :unprocessable_entity
     end
   end
