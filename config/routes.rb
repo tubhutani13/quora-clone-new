@@ -5,14 +5,14 @@ Rails.application.routes.draw do
   root "home#index"
   get "/signup", to: "users#new"
   resources :users do
-    get '/followers', to: "users#followers"
-    get '/following', to: "users#followees"
+    get "/followers", to: "users#followers"
+    get "/following", to: "users#followees"
     member do
       get :confirm_email
+      post "follow", to: "users#follow", as: "follow_user"
+      post "unfollow", to: "users#unfollow", as: "unfollow_user"
     end
   end
-  post '/users/:id/follow', to: "users#follow", as: "follow_user"
-  post '/users/:id/unfollow', to: "users#unfollow", as: "unfollow_user"
 
   resources :passwords
   resources :sessions, only: [:new, :create, :destroy]
