@@ -1,7 +1,7 @@
 <div class=" question ">
   <%= render partial: 'shared/error_messages', locals: { model: @question}%>
-  <%= render partial: 'users/show-mini', locals: {user: User.find(@question.user_id), extra_data: "Published: #{@question.published_at.strftime('%m/%d %I:%M %p')}"} %>
-  <div class="title"><%= @question.title %></div>
+  <%= render partial: 'users/show-mini', locals: {user: User.find(@question.user_id), extra_data: "Published: #{@question.published? ? @question.published_at.strftime('%m/%d %I:%M %p') : "nil"}"} %>
+  <div class="title"><%= @question.title %><%="(unpublished)" if @question.reports.size >= REPORTS_THRESHOLD %></div>
   <div class="desc"><%= @question.content.to_plain_text %></div>
   <% if @question.pdf_attachment.present?%>
     <%= link_to  "Open PDF",rails_blob_path(@question.pdf_attachment), class: "d-block" %>
@@ -19,6 +19,7 @@
     <%= button_to "Delete Question", @question,method: :delete, class: "mt-2 btn btn-primary", form: { data: {turbo_confirm: 'Are you sure?'}}  %>
   <% else %>
     <% if logged_in? %>
+      <%= link_to 'Report this Question', new_report_path(reportable_id: @question.id, reportable_type: @question.class) %>
       <%= render partial: 'answers/form',locals:{ entity: @question, answer:@question.answers.build } %>
       <%= render partial: 'comments/form',locals:{ entity: @question, comment:@question.comments.build, parent_entity: nil } %>
     <% end %>

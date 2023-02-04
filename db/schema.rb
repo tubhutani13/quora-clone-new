@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_02_01_115648) do
+ActiveRecord::Schema[7.0].define(version: 2023_02_03_125337) do
   create_table "action_text_rich_texts", force: :cascade do |t|
     t.string "name", null: false
     t.text "body"
@@ -60,7 +60,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_01_115648) do
   end
 
   create_table "comments", force: :cascade do |t|
-    t.text "body"
+    t.text "content"
     t.string "commentable_type", null: false
     t.integer "commentable_id", null: false
     t.integer "user_id", null: false

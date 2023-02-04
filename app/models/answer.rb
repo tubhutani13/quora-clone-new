@@ -1,14 +1,14 @@
 class Answer < ApplicationRecord
   include CommentsHandler
+  include ReportsHandler
   
   after_create_commit :send_confirmation_email
-  validates_presence_of :answer_body
+  validates_presence_of :content
 
   belongs_to :user
   belongs_to :question
 
-  has_rich_text :answer_body
-  
+  has_rich_text :content
 
   def send_confirmation_email
     QuestionMailer.answer_posted(self.id)

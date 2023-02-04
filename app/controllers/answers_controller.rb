@@ -10,7 +10,7 @@ class AnswersController < ApplicationController
   end
 
   def create
-    @answer = @question.answers.new(answer_params.merge(user: current_user))
+    @answer = @question.answers.new(answer_params.merge(user: current_user, published_at: Time.now))
     if @answer.save
       redirect_to @question, notice: t("answer_publish_success")
     else
@@ -36,7 +36,7 @@ class AnswersController < ApplicationController
   private
 
   def answer_params
-    params.require(:answer).permit(:user_id, :answer_body, :question_permalink, published_at: Time.now)
+    params.require(:answer).permit(:user_id, :content, :question_permalink, published_at: Time.now)
   end
 
   def set_question

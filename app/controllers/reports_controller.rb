@@ -1,16 +1,17 @@
 class ReportsController < ApplicationController
   before_action :set_reportable
+  before_action :check_already_reported
 
   def new
     @report = Report.new
   end
 
   def create
-    @report = @reportable.reports.build(report_params, user: current_user)
+    @report = @reportable.reports.build(report_params.merge(user: current_user))
     if @report.save
-      redirect_back_or user_path, notice: "Report was successfully Submitted."
+      redirect_to user_path(current_user), notice: t("submit_success")
     else
-        render :new, status: :unprocessable_entity
+      render :new, status: :unprocessable_entity
     end
   end
 
@@ -24,7 +25,7 @@ class ReportsController < ApplicationController
 
   private def check_already_reported
     if @report = @reportable.reports.find_by(user_id: current_user.id)
-      redirect_to request.referrer, notice: t("already_reported", abuse_report_time: @report.created_at.to_date)
+      redirect_to request.referrer, notice: t("already_reported", report_time: @report.created_at.to_date)
     end
   end
 end

@@ -5,16 +5,14 @@ class User < ApplicationRecord
     "admin" => 1,
   }
 
-
   before_create -> { generate_token(:email_confirm_token) }
   after_create_commit :send_confirmation_email
   before_save :downcase_email
-  
+
   has_many :questions, dependent: :restrict_with_error
   has_many :answers, dependent: :nullify
   has_many :comments, dependent: :nullify
   has_many :credits, dependent: :destroy
-  
 
   has_many :followed_users, foreign_key: :follower_id, class_name: "Follow"
   has_many :followees, through: :followed_users
@@ -27,7 +25,7 @@ class User < ApplicationRecord
     attachable.variant :thumb, resize_to_limit: [100, 100]
     attachable.variant :mini, resize_to_limit: [40, 40]
   end
-  
+
   before_update :add_verification_credits, if: :verified_at_changed?
   validates :name, presence: true
   validates :email, presence: true, format: { with: VALID_EMAIL_REGEX }, uniqueness: { case_sensitive: false }
@@ -49,10 +47,10 @@ class User < ApplicationRecord
   end
 
   def recompute_credits
-    self.credits_count = self.credits.inject(0) {|sum,credit| sum += credit.amount}
+    self.credits_count = self.credits.inject(0) { |sum, credit| sum += credit.amount }
     save!
   end
-  
+
   private
 
   def password_set?
@@ -61,11 +59,14 @@ class User < ApplicationRecord
 
   def add_verification_credits
     credits.build({ amount: 5, creditable: User.find(0), description: 0 })
+    save
   end
 
   def generate_credits(amount, entity, description)
     credits.build({ amount: amount, creditable: entity, description: description })
     save
+  end
+
   def send_confirmation_email
     UserMailer.registration_confirmation(id).deliver_later
   end

@@ -1,11 +1,10 @@
 <div>
   <%= form_with(model: [entity,answer]) do |f| %>
-  <% if @answer %>
-    <%= render partial: 'shared/error_messages', locals: { model: @answer}%>
+    <% if @answer %>
+      <%= render partial: 'shared/error_messages', locals: { model: @answer}%>
     <% end %>
-    <%= f.label :answer_body, 'Write an Answer' %>
-
-    <%= f.rich_text_area :answer_body, class: 'mb-1 form-control' %>
+    <%= f.label :content, 'Write an Answer' %>
+    <%= f.rich_text_area :content, class: 'mb-1 form-control' %>
     <%= f.submit "Submit Answer", class: "mt-2 btn btn-primary" %>
   <% end %>
 </div>

@@ -32,3 +32,5 @@
 en:
   hello: "Hello world"
   error: "Ooooppss, something went wrong!"
+  not_enough_credits: "has less credits than required"
+  not publishable: "is not publishable"
