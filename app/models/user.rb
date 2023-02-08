@@ -13,6 +13,7 @@ class User < ApplicationRecord
   has_many :answers, dependent: :nullify
   has_many :comments, dependent: :nullify
   has_many :credits, dependent: :destroy
+  has_many :orders, dependent: :destroy
 
   has_many :followed_users, foreign_key: :follower_id, class_name: "Follow"
   has_many :followees, through: :followed_users
