@@ -35,10 +35,6 @@ class Question < ApplicationRecord
     permalink
   end
 
-  def published?
-    self.published_at.present?
-  end
-
   def publish_question(published)
     check_publish(published)
     save

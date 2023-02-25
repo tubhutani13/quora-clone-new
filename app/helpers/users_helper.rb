@@ -9,6 +9,6 @@ module UsersHelper
 
   def change_password
     current_user.generate_change_password_token
-    redirect_to edit_password_reset_url(current_user.password_reset_token)
+    redirect_to edit_password_url(current_user.password_reset_token)
   end
 end

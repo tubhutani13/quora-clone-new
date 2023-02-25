@@ -10,6 +10,10 @@ module ReportsHandler
     update(published_at: nil)
   end
 
+  def published?
+    self.published_at.present?
+  end
+
   def unpublished?
     self.reports.count >= REPORTS_THRESHOLD
   end
