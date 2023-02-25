@@ -13,4 +13,16 @@ class Order < ApplicationRecord
   validates :amount, presence: true, numericality: { greater_than: 0 }
   validates :status, presence: true
   validates :status, inclusion: statuses.keys
+
+  before_create :assign_code
+
+  private
+
+  def assign_code
+    self.code = generate_order_code
+  end
+
+  def generate_order_code
+    P
+  end
 end

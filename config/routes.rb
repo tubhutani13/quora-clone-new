@@ -14,6 +14,14 @@ Rails.application.routes.draw do
       post "unfollow"
     end
   end
+
+  resources :credit_packs, only: [:index]
+  resource :transactions, only: [:create]
+  resources :orders, only: [:create], param: :code do
+    get 'checkout', on: :member
+    get 'success', on: :member
+    get 'failure', on: :member
+  end
   resources :passwords
   resources :sessions, only: [:new, :create, :destroy]
   resources :reports
