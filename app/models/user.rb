@@ -8,6 +8,8 @@ class User < ApplicationRecord
   before_create -> { generate_token(:email_confirm_token) }
   after_create_commit :send_confirmation_email
   before_save :downcase_email
+  before_update :add_verification_credits, if: :verified_at_changed?
+  before_update -> { generate_token(:auth_token) }, if: :verified_at_changed?
 
   has_many :questions, dependent: :restrict_with_error
   has_many :answers, dependent: :nullify
@@ -27,7 +29,6 @@ class User < ApplicationRecord
     attachable.variant :mini, resize_to_limit: [40, 40]
   end
 
-  before_update :add_verification_credits, if: :verified_at_changed?
   validates :name, presence: true
   validates :email, presence: true, format: { with: VALID_EMAIL_REGEX }, uniqueness: { case_sensitive: false }
   validates :password, presence: true, length: { minimum: 6 }, if: :password_set?

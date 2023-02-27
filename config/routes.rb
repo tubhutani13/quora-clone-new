@@ -18,9 +18,9 @@ Rails.application.routes.draw do
   resources :credit_packs, only: [:index]
   resource :transactions, only: [:create]
   resources :orders, only: [:create], param: :code do
-    get 'checkout', on: :member
-    get 'success', on: :member
-    get 'failure', on: :member
+    get "checkout", on: :member
+    get "success", on: :member
+    get "failure", on: :member
   end
   resources :passwords
   resources :sessions, only: [:new, :create, :destroy]
@@ -32,6 +32,13 @@ Rails.application.routes.draw do
     resources :comments
     collection do
       match "search" => "questions#search", via: [:get, :post], as: :search
+    end
+  end
+
+  namespace :api do
+    get 'feed', to: 'users#feed', format: true, constraints: { format: :json }
+    resources :topics, only: [:index, :show], param: :topic do
+      get "/:x", to: "topics#show", on: :member
     end
   end
 
