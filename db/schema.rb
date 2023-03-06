@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_02_03_125337) do
+ActiveRecord::Schema[7.0].define(version: 2023_02_07_171506) do
   create_table "action_text_rich_texts", force: :cascade do |t|
     t.string "name", null: false
     t.text "body"
@@ -71,6 +71,13 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_03_125337) do
     t.index ["user_id"], name: "index_comments_on_user_id"
   end
 
+  create_table "credit_packs", force: :cascade do |t|
+    t.decimal "price", precision: 7, scale: 2
+    t.integer "credits"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "credits", force: :cascade do |t|
     t.integer "amount"
     t.integer "description"
@@ -88,6 +95,18 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_03_125337) do
     t.integer "followee_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "orders", force: :cascade do |t|
+    t.string "code"
+    t.decimal "amount", precision: 7, scale: 2
+    t.integer "status"
+    t.integer "user_id", null: false
+    t.integer "credit_pack_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["credit_pack_id"], name: "index_orders_on_credit_pack_id"
+    t.index ["user_id"], name: "index_orders_on_user_id"
   end
 
   create_table "questions", force: :cascade do |t|
@@ -142,6 +161,20 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_03_125337) do
     t.index ["name"], name: "index_tags_on_name", unique: true
   end
 
+  create_table "transactions", force: :cascade do |t|
+    t.string "transaction_id", null: false
+    t.decimal "amount", null: false
+    t.string "payment_method", null: false
+    t.string "payment_status", null: false
+    t.string "reason"
+    t.string "status"
+    t.integer "order_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["order_id"], name: "index_transactions_on_order_id"
+    t.index ["transaction_id"], name: "index_transactions_on_transaction_id", unique: true
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "name"
     t.string "email"
@@ -162,7 +195,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_03_125337) do
   add_foreign_key "answers", "users"
   add_foreign_key "comments", "users"
   add_foreign_key "credits", "users"
+  add_foreign_key "orders", "credit_packs"
+  add_foreign_key "orders", "users"
   add_foreign_key "questions", "users"
   add_foreign_key "reports", "users"
   add_foreign_key "taggings", "tags"
+  add_foreign_key "transactions", "orders"
 end

@@ -177,6 +177,7 @@ GEM
       thor (~> 1.0)
       zeitwerk (~> 2.5)
     rake (13.0.6)
+    random_token (1.1.1)
     ransack (3.2.1)
       activerecord (>= 6.1.5)
       activesupport (>= 6.1.5)
@@ -211,6 +212,7 @@ GEM
     sqlite3 (1.6.0-x86_64-linux)
     stimulus-rails (1.2.1)
       railties (>= 6.0.0)
+    stripe (7.1.0)
     thor (1.2.1)
     tilt (2.0.11)
     timeout (0.3.1)
@@ -253,6 +255,7 @@ DEPENDENCIES
   letter_opener (~> 1.8.1)
   puma (~> 5.0)
   rails (~> 7.0.4)
+  random_token (~> 1.1)
   ransack (~> 3.2.1)
   sassc-rails (~> 2.1.2)
   select2-rails (~> 4.0.1)
@@ -260,6 +263,7 @@ DEPENDENCIES
   sprockets-rails
   sqlite3 (~> 1.4)
   stimulus-rails
+  stripe (~> 7.1.0)
   turbo-rails
   tzinfo-data
   web-console

@@ -13,6 +13,7 @@ class User < ApplicationRecord
   has_many :answers, dependent: :nullify
   has_many :comments, dependent: :nullify
   has_many :credits, dependent: :destroy
+  has_many :orders, dependent: :destroy
 
   has_many :followed_users, foreign_key: :follower_id, class_name: "Follow"
   has_many :followees, through: :followed_users
@@ -51,20 +52,19 @@ class User < ApplicationRecord
     save!
   end
 
-  private
-
-  def password_set?
-    return !(self.password.blank? && !self.new_record?)
-  end
-
   def add_verification_credits
-    credits.build({ amount: 5, creditable: User.find(0), description: 0 })
-    save
+    credits.build({ amount: 5, creditable: User.find(1), description: 0 })
   end
 
   def generate_credits(amount, entity, description)
     credits.build({ amount: amount, creditable: entity, description: description })
     save
+  end
+
+  private
+
+  def password_set?
+    return !(self.password.blank? && !self.new_record?)
   end
 
   def send_confirmation_email

@@ -6,10 +6,11 @@
     <div><%= @user.email %></div>
     <br />
     <div>Your Credits: <%= @user.credits_count %></div>
-  <%= link_to 'Your credits history', user_credits_path(@user) %>
+    <%= link_to 'Your credits history', user_credits_path(@user) %>
+    <%= link_to 'Buy_credits', credit_packs_path %>
     <div class= "d-flex justify-content-around">
-      <%= button_to 'Followers', user_followers_path(@user), method: :get, class: "mt-2 btn btn-primary" %>
-      <%= button_to 'Following', user_following_path(@user), method: :get, class: "mt-2 btn btn-primary" %>
+      <%= button_to "Followers #{@user.followers.size}", user_followers_path(@user), method: :get, class: "mt-2 btn btn-primary" %>
+      <%= button_to "Following #{@user.followees.size}", user_following_path(@user), method: :get, class: "mt-2 btn btn-primary" %>
     </div>
     <div>Your Topic of interests</div>
     <div class="topics-container">
@@ -27,5 +28,4 @@
     <div class= "border-bottom border-secondary text-center p-2">Your Drafted/Unpublished Questions</div>
     <%= render partial: 'questions/question', collection: @user.questions.where(published_at: nil) %>
   </div>
- 
 </div>
