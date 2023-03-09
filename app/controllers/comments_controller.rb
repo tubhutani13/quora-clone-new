@@ -4,7 +4,7 @@ class CommentsController < ApplicationController
   before_action :load_question
 
   def create
-    @comment = @entity.comments.new(comment_params.merge(user: current_user))
+    @comment = @entity.comments.new(comment_params.merge(user: current_user, published_at: Time.now))
     if @comment.save
       redirect_to @question, notice: t("comment_submit_success")
     else
@@ -30,7 +30,7 @@ class CommentsController < ApplicationController
   private
 
   def comment_params
-    params.require(:comment).permit(:user_id, :body, :commentable_id, :commentable_type)
+    params.require(:comment).permit(:user_id, :content, :commentable_id, :commentable_type, :published_at)
   end
 
   def load_comment

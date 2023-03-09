@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   resources :users do
     get "/followers", to: "users#followers"
     get "/following", to: "users#followees"
+    get "credits"
     member do
       get :confirm_email
       post "follow"
@@ -15,7 +16,7 @@ Rails.application.routes.draw do
   end
   resources :passwords
   resources :sessions, only: [:new, :create, :destroy]
-
+  resources :reports
   resources :questions, param: :permalink do
     resources :answers do
       resources :comments

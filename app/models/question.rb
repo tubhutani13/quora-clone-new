@@ -1,9 +1,12 @@
 class Question < ApplicationRecord
   include ::TokenHandler
   include CommentsHandler
+  include ReportsHandler
+
   
   belongs_to :user
   has_many :answers, dependent: :restrict_with_error
+  has_many :credits, as: :creditable
 
   scope :published_questions, -> { where.not(published_at: :nil) }
   before_create -> { generate_token(:permalink) }
@@ -13,6 +16,7 @@ class Question < ApplicationRecord
     validates :title, presence: true, uniqueness: true
     validates :content, presence: true, length: { minimum: 15 }
     validates :topic_list, presence: true
+    validates :published_at, min_credits: true
   end
 
   belongs_to :user
@@ -29,10 +33,6 @@ class Question < ApplicationRecord
 
   def to_param
     permalink
-  end
-
-  def published?
-    self.published_at.present?
   end
 
   def publish_question(published)

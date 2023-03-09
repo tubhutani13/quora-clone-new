@@ -5,14 +5,14 @@ class User < ApplicationRecord
     "admin" => 1,
   }
 
-
   before_create -> { generate_token(:email_confirm_token) }
   after_create_commit :send_confirmation_email
   before_save :downcase_email
-  
+
   has_many :questions, dependent: :restrict_with_error
   has_many :answers, dependent: :nullify
   has_many :comments, dependent: :nullify
+  has_many :credits, dependent: :destroy
 
   has_many :followed_users, foreign_key: :follower_id, class_name: "Follow"
   has_many :followees, through: :followed_users
@@ -26,6 +26,7 @@ class User < ApplicationRecord
     attachable.variant :mini, resize_to_limit: [40, 40]
   end
 
+  before_update :add_verification_credits, if: :verified_at_changed?
   validates :name, presence: true
   validates :email, presence: true, format: { with: VALID_EMAIL_REGEX }, uniqueness: { case_sensitive: false }
   validates :password, presence: true, length: { minimum: 6 }, if: :password_set?
@@ -45,10 +46,23 @@ class User < ApplicationRecord
     UserMailer.forgot_password(id).deliver
   end
 
+  def recompute_credits
+    self.credits_count = self.credits.inject(0) { |sum, credit| sum += credit.amount }
+  end
+
   private
 
   def password_set?
     return !(self.password.blank? && !self.new_record?)
+  end
+
+  def add_verification_credits
+    credits.build({ amount: VERFICATION_CREDIT_AMOUNT, creditable: ADMIN_USER, description: "New user credits" })
+  end
+
+  def generate_credits(amount, entity, description)
+    credits.build({ amount: amount, creditable: entity, description: description })
+    save
   end
 
   def send_confirmation_email

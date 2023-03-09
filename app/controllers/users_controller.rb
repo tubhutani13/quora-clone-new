@@ -51,6 +51,11 @@ class UsersController < ApplicationController
     redirect_back(fallback_location: user_path(@user))
   end
 
+  def credits
+    @user = current_user
+    @credits = current_user.credits
+  end
+
   private
 
   def user_params
