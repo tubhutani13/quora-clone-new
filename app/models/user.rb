@@ -48,7 +48,6 @@ class User < ApplicationRecord
 
   def recompute_credits
     self.credits_count = self.credits.inject(0) { |sum, credit| sum += credit.amount }
-    save!
   end
 
   private
@@ -58,8 +57,7 @@ class User < ApplicationRecord
   end
 
   def add_verification_credits
-    credits.build({ amount: 5, creditable: User.find(0), description: 0 })
-    save
+    credits.build({ amount: VERFICATION_CREDIT_AMOUNT, creditable: ADMIN_USER, description: "New user credits" })
   end
 
   def generate_credits(amount, entity, description)

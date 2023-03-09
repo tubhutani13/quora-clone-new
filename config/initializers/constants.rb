@@ -2,3 +2,5 @@ VALID_EMAIL_REGEX = /\A(|(([A-Za-z0-9]+_+)|([A-Za-z0-9]+\-+)|([A-Za-z0-9]+\.+)|(
 DEFAULT_EMAIL = "me@mydomain.com".freeze
 COOKIE_EXPIRATION_TIME = 1.day.from_now
 REPORTS_THRESHOLD = 1
+ADMIN_USER = User.find(1)
+VERFICATION_CREDIT_AMOUNT = 5
