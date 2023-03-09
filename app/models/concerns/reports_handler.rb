@@ -15,6 +15,6 @@ module ReportsHandler
   end
 
   def unpublished?
-    self.reports.count >= REPORTS_THRESHOLD
+    self.reports.count >= REPORTS_THRESHOLD || !published?
   end
 end

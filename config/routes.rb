@@ -36,10 +36,19 @@ Rails.application.routes.draw do
   end
 
   namespace :api do
-    get 'feed', to: 'users#feed', format: true, constraints: { format: :json }
+    get "feed", to: "users#feed", format: true, constraints: { format: :json }
     resources :topics, only: [:index, :show], param: :topic do
       get "/:x", to: "topics#show", on: :member
     end
+  end
+
+  resource :admin, only: [:show], module: :admin do
+    get "users"
+    get "questions"
+    get "answers"
+    get "comments"
+    patch 'disable_user'
+    patch 'disable_entity'
   end
 
   get "/login", to: "sessions#new"

@@ -1,6 +1,7 @@
 class ApplicationController < ActionController::Base
   include SessionsHelper
   before_action :set_global_search_variable
+  before_action :authorize_user
 
   def search
     index
@@ -11,9 +12,7 @@ class ApplicationController < ActionController::Base
 
   def authorize_user
     unless logged_in?
-      store_location
-      flash[:danger] = t("login_prompt")
-      redirect_to login_url
+      redirect_to login_url,notice: t("login_prompt")
     end
   end
 

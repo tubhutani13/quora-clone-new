@@ -1,6 +1,9 @@
 class Answer < ApplicationRecord
   include CommentsHandler
   include ReportsHandler
+
+  scope :published_answers, -> { where.not(published_at: :nil) }
+
   
   after_create_commit :send_confirmation_email
   validates_presence_of :content

@@ -62,6 +62,10 @@ class User < ApplicationRecord
     save
   end
 
+  def banned?
+    self.disabled_at?
+  end
+
   private
 
   def password_set?

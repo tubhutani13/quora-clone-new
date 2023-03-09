@@ -6,6 +6,8 @@ class HomeController < ApplicationController
     @feed_questions = @q.result(distinct: true)
   end
 
+  private
+
   def ransack_params
     if params[:follow]
       { topics_name_in: (params[:query] || current_user&.topic_list),user_id_in: current_user.followees.ids }

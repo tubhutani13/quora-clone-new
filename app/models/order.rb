@@ -23,6 +23,6 @@ class Order < ApplicationRecord
   end
 
   def generate_order_code
-    P
+    RandomToken.gen('%1A%9n')
   end
 end
