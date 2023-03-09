@@ -42,6 +42,11 @@ Rails.application.routes.draw do
     end
   end
 
+  scope controller: :votes, path: 'vote' do
+    post 'upvote'
+    post 'downvote'
+  end
+  
   resource :admin, only: [:show], module: :admin do
     get "users"
     get "questions"
