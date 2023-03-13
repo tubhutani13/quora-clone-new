@@ -5,6 +5,7 @@
     <div ><Strong><%= @user.name %></Strong></div>
     <div><%= @user.email %></div>
     <br />
+    <div>Your auth token: <%= @user.auth_token %></div>
     <div>Your Credits: <%= @user.credits_count %></div>
     <%= link_to 'Your credits history', user_credits_path(@user) %>
     <%= link_to 'Buy_credits', credit_packs_path %>
